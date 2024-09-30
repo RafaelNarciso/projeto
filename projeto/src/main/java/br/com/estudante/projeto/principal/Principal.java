@@ -1,14 +1,14 @@
 package br.com.estudante.projeto.principal;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import br.com.estudante.projeto.model.DadosSerie;
 import br.com.estudante.projeto.model.DadosTemporada;
+import br.com.estudante.projeto.model.Serie;
 import br.com.estudante.projeto.service.ConsumoApi;
 import br.com.estudante.projeto.service.ConverteDados;
 
@@ -82,7 +82,14 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        dadosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = dadosSeries.stream()
+                .map(d -> new Serie(d))
+                .collect(Collectors.toList());
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
+
     }
 
 }
