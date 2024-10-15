@@ -3,11 +3,29 @@ package br.com.estudante.projeto.model;
 import java.util.OptionalDouble;
 
 import br.com.estudante.projeto.service.ConsultaChatGPT;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity // Aqui estamos relacionando essa classe com o banco de dados do Postgre
+@Table(name = "series") // estou renomeando o a tabela no banco com o nome series agora
 public class Serie {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Aqui estou criando as chaves pk
+    private Long id;
+
+    @Column(unique = true) // aqui informando que o titulo não pode se repitir
     private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
+
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
     private String poster;
@@ -77,6 +95,14 @@ public class Serie {
 
     public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
