@@ -11,6 +11,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // Aqui estamos relacionando essa classe com o banco de dados do Postgre
 @Table(name = "series") // estou renomeando o a tabela no banco com o nome series agora
@@ -30,6 +34,15 @@ public class Serie {
     private String atores;
     private String poster;
     private String sinopse;
+
+    @Transient // ! com essa anotação a Jpa ira transitar entre as classes
+    private List<Episodio> episodios = new ArrayList<>(); // ? para poder relacionar a classe serie com a episodio e
+                                                          // necessario realizar
+    // uma instancia
+
+    public Serie() {
+
+    }
 
     public Serie(DadosSerie dadosSerie) {
         this.titulo = dadosSerie.titulo();
@@ -103,6 +116,14 @@ public class Serie {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
     }
 
     @Override
