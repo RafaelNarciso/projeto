@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,7 +35,7 @@ public class Serie {
     private String poster;
     private String sinopse;
 
-    @OneToMany(mappedBy = "serie") // relacionamento de um para muitos
+    @OneToMany(mappedBy = "serie", cascade=CascadeType.ALL,fetch= FetchType.EAGER ) // relacionamento de um para muitos
     private List<Episodio> episodios = new ArrayList<>(); // ? para poder relacionar a classe serie com a episodio e
                                                           // necessario realizar
     // uma instancia
@@ -51,6 +53,7 @@ public class Serie {
         this.poster = dadosSerie.poster();
         // this.sinopse = ConsultaChatGPT.obterTraducao(dadosSerie.sinopse()).trim();
     }
+ 
 
     public String getTitulo() {
         return titulo;
@@ -120,9 +123,14 @@ public class Serie {
         return episodios;
     }
 
+
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
         this.episodios = episodios;
     }
+
+   
+
 
     @Override
     public String toString() {
@@ -133,7 +141,8 @@ public class Serie {
                 "Avaliacao = " + avaliacao + "\n" +
                 "Atores = '" + atores + "\n" +
                 "Poster = '" + poster + "\n" +
-                "Sinopse ='" + sinopse + "\n";
+                "Sinopse ='" + sinopse + "\n"+
+                "episodios ='" + episodios + "\n";
     }
 
 }

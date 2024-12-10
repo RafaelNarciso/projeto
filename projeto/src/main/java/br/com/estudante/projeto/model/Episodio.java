@@ -26,6 +26,9 @@ public class Episodio {
     @ManyToOne // relacionamento de muito para um
     private Serie serie; // atributo
 
+
+    public Episodio(){}
+
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroTemporada;
         this.titulo = dadosEpisodio.titulo();
@@ -42,6 +45,13 @@ public class Episodio {
         } catch (DateTimeParseException ex) {
             this.dataLancamento = null;
         }
+    }
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 
     public Integer getTemporada() {
@@ -101,4 +111,5 @@ public class Episodio {
                 ", dataLancamento=" + dataLancamento;
     }
 
+  
 }
